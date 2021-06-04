@@ -1,0 +1,245 @@
+<core:View
+	controllerName="purchaserequisitionapproval.controller.Detail"
+	xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form"
+	xmlns:layout="sap.ui.layout" xmlns:sap.ca.ui="sap.ca.ui" xmlns:suite="sap.suite.ui.commons" xmlns:f="sap.ui.layout.form"
+	xmlns:graph="sap.suite.ui.commons.networkgraph">
+	<Page id="mainPage" showSubHeader="{= ${deviceModel>/system/phone} &amp;&amp; ${deviceModel>/orientation/portrait}}"
+		class="detailPageMyInbox" enableScrolling="false">
+		<headerContent></headerContent>
+		<subHeader>
+			<Bar>
+				<contentRight>
+					<Image src="{rootPath>/path}/images/logo.png" height="2.5rem"/>
+				</contentRight>
+			</Bar>
+		</subHeader>
+		<ScrollContainer height="95%" vertical="true" horizontal="false">
+			<layout:DynamicSideContent id="DynamicSideContent" class="sapUiDSCExplored" sideContentFallDown="BelowM" containerQuery="true"
+				sideContentVisibility="ShowAboveS" showSideContent="false" breakpointChanged="updateToggleButtonState">
+				<layout:mainContent>
+					<core:ComponentContainer id="genericComponentContainer" height="100%" visible="{= ${detail>/showGenericComponent}}"
+						propagateModel="{path: 'detail>/showGenericComponent', formatter: 'cross.fnd.fiori.inbox.Conversions.formatterPropagateModel'}"/>
+					<!-- Extends the header section -->
+					<core:ExtensionPoint name="CustomerExtensionForObjectHeader">
+						
+                         <VBox>
+                        <HBox class="ListItemSpacer">
+                        <Text class="bolderClass ListItemSpacerFirst" text="{i18n>PurchaseRequisition}:"/>
+                        <Text class="bolderClass ListItemSpacerFirst" text="{PurchaseRequisition}"/>
+                        <Text class="bolderClass ListItemSpacerFirst" text="{InstanceID}" visible="false"/>
+                        </HBox>
+                        <HBox class="ListItemSpacer">
+                        <Text text="{i18n>PurchasingType}:"/>
+                        <Text text="{TipoDocumentoDesc}" class="bolderClass"/>
+                        </HBox>
+                        <HBox class="ListItemSpacer">
+                        <Text text="{i18n>SAPRequestionair}: "/>
+                        <Text text="{RequesterDesc}" class="bolderClass"/>
+                        </HBox>
+                        <HBox class="ListItemSpacer">
+                        <Text text="{i18n>TotalValue}: "/>
+                        <Text text="{TotalValue} {Currency}" class="bolderClass"/>
+                        </HBox>
+                    </VBox>
+
+					</core:ExtensionPoint>
+					<IconTabBar id="tabBar" expandable="false" select="onTabSelect" visible="true" class="sapUiMediumMarginBottom">
+						<items>
+							<IconTabFilter icon="sap-icon://hint" tooltip="{i18n>comments.tooltip}" key="DESCRIPTION" id="DescriptionContent">
+								<!-- Extends the info tab content -->
+								<core:ExtensionPoint name="CustomerExtensionForInfoTabContent">
+									<VBox class="sapUiSmallMargin">
+										<f:SimpleForm layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12">
+											<f:content>
+												<Label text="{i18n>ExtNewLblHeaderNote}" class="sapUiTinyMarginTop"/>
+												<TextArea value="{extendedJsonModel>/HeaderNote}" editable="false" height="8rem" class="textAreaInput"/>
+												<Label text="{i18n>ExtNewLblHeaderApprRejNote}" class="sapUiTinyMarginTop"/>
+												<TextArea value="{extendedJsonModel>/ApprRejNote}" editable="false" height="8rem" class="textAreaInput"/>
+											</f:content>
+										</f:SimpleForm>
+									</VBox>
+								</core:ExtensionPoint>
+							</IconTabFilter>
+							<IconTabFilter icon="sap-icon://checklist-item-2" tooltip="{i18n>ExtNewLblPositions}" count="{Positions/results/length}"
+								visible="true" key="positions">
+								<Table items="{Positions}" class="biggerSpacesTable">
+									<columns>
+										<Column vAlign="Top" width="10%" visible="{= !${deviceModel>/system/phone}}">
+											<!--<Text text="{i18n>ExtNewLblCol1}"/>-->
+										</Column>
+										<Column vAlign="Top" width="80%">
+											<!--<HBox fitContainer="true" width="100%">-->
+											<!--	<VBox fitContainer="true" width="50%">-->
+											<!--		<Text text="{i18n>ExtNewLblColCostCenter}"/>-->
+											<!--	</VBox>-->
+											<!--	<VBox fitContainer="true" width="50%">-->
+											<!--		<Text text="" visible="{deviceModel>/system/phone}"/>-->
+											<!--		<Text text="{i18n>}"/>-->
+											<!--		<Text text=""/>-->
+											<!--		<Text text=""/>-->
+											<!--		<Text text="{i18n>ExtNewLblColOrder}"/>-->
+											<!--	</VBox>-->
+											<!--</HBox>-->
+										</Column>
+									</columns>
+									<items>
+										<ColumnListItem>
+											<cells>
+												<VBox>
+													<Text text="{i18n>ExtNewLblCol1}: " class="positionTableLabel"/>
+													<Text text="{= Number(${Position})}" class="positionTableMainText"/>
+												</VBox>
+												<VBox class="sapUiTinyMarginTop">
+													<HBox fitContainer="true" width="100%">
+														<HBox visible="{deviceModel>/system/phone}" fitContainer="true" width="100%">
+															<Text text="{i18n>ExtNewLblCol1}: " class="positionTableLabel"/>
+															<Text text="{= Number(${Position})}" class="positionTableMainText"/>
+														</HBox>
+														<!--<HBox fitContainer="true" width="70%">-->
+														<!--	<Text text="{i18n>ExtNewLblColMaterialGroup}: " class="positionTableLabel"/>-->
+														<!--	<Text text="{= !${deviceModel>/system/phone} ? ( ${extendedJsonModel>MaterialGroupCode} + ' -' ) : ''} {extendedJsonModel>MaterialGroupDes}"-->
+														<!--		class="positionTableMainText"/>-->
+														<!--</HBox>-->
+													</HBox>
+													<HBox fitContainer="true" width="100%">
+														<!--<HBox visible="{deviceModel>/system/phone}" fitContainer="true" width="100%">-->
+														<!--	<Text text="{i18n>ExtNewLblCol1}: " class="positionTableLabel"/>-->
+														<!--	<Text text="{= Number(${extendedJsonModel>Position})}" class="positionTableMainText"/>-->
+														<!--</HBox>-->
+														<HBox fitContainer="true" width="100%">
+															<Text text="{i18n>ExtNewLblColMaterialGroup}: " class="positionTableLabel"/>
+															<Text text="{= !${deviceModel>/system/phone} ? ( ${MaterialGroupCode} + ' -' ) : ''} {MaterialGroupDes}"
+																class="positionTableMainText"/>
+														</HBox>
+													</HBox>
+													<HBox>
+														<Text text="{i18n>ExtNewLblColRequisitionDescription}: " class="positionTableLabel"/>
+														<Text text="{ShortText}" class="positionTableMainText"/>
+													</HBox>
+													<HBox fitContainer="true" width="100%" class="vboxPricesMargin">
+														<VBox fitContainer="true" width="50%">
+															<Text text="{i18n>ExtNewLblColQuantity}:" class="positionTableLabel"/>
+															<Text text="{Quantity} {UM} x {ValuationPrice} {Currency}"
+																class="positionTableMainText"/>
+														</VBox>
+														<VBox fitContainer="true" width="50%">
+															<Text text="{i18n>ExtNewLblColTotalValue}:" class="positionTableLabel"/>
+															<Text text="{TotalValue} {Currency}" class="positionTableMainText"/>
+														</VBox>
+													</HBox>
+													<HBox class="">
+														<Text text="{i18n>ExtNewLblColFixedVendor}: " class="positionTableLabel"/>
+														<ObjectAttribute text=" {FixedVendorDes} ({= Number(${FixedVendorCode})})" active="true"
+															press="onVendorLaunchTask" class="positionTableLabel"/>
+														<!--<Text text="{extendedJsonModel>FixedVendorDes} ({= Number(${extendedJsonModel>FixedVendorCode})})" class="positionTableMainText"/>-->
+													</HBox>
+													<HBox>
+														<Text text="{i18n>ExtNewLblColRequestor}: " class="positionTableLabel"/>
+														<Text text="{Requestor}" class="positionTableMainText"/>
+													</HBox>
+													<HBox>
+														<Text text="{i18n>ExtNewLblColDeliveryDate}: " class="positionTableLabel"/>
+														<Text text="{DeliveryDate}" class="positionTableMainText"/>
+													</HBox>
+													<ObjectAttribute text="{= ${showAllRows} ? ${i18n>ExtNewLblColShowLess} : ${i18n>ExtNewLblColShowMore}}"
+														press="onPressShowMore" active="true" class="underline"/>
+													<VBox class="vboxPricesMargin" visible="{showAllRows}">
+														<HBox>
+															<Text text="{i18n>ExtNewLblColPlant}: " class="positionTableLabel"/>
+															<Text text="{= !${deviceModel>/system/phone} ? ( ${PlantCode} + ' -' ) : ''} {PlantDes}"
+																class="positionTableMainText"/>
+														</HBox>
+														<HBox>
+															<Text text="{i18n>ExtNewLblColCostCenter}:" class="positionTableLabel"/>
+															<Text
+																text="{CostCenterDes} {= !!${CostCenterCode} ? ( '(' + ${CostCenterCode} + ')' ) : ''}"
+																class="positionTableMainText"/>
+														</HBox>
+														<HBox>
+															<Text text="{i18n>ExtNewLblColInternalOrder}:" class="positionTableLabel"/>
+															<Text text="{OrderDes} {= !!${OrderCode} ? ( '(' + ${OrderCode} + ')' ) : ''}"
+																class="positionTableMainText"/>
+														</HBox>
+														<VBox>
+															<Text text="{i18n>ExtNewLblColLongDescription}:" class="positionTableLabel"/>
+															<Text text="{ItemText}" class="positionTableMainText"/>
+														</VBox>
+													</VBox>
+												</VBox>
+											</cells>
+										</ColumnListItem>
+									</items>
+								</Table>
+							</IconTabFilter>
+							<IconTabFilter id="MIBAttachmentIconTabFilter" icon="sap-icon://attachment" tooltip="{i18n>attachments.tooltip}"
+								count="{detail>/AttachmentsCount}"
+								visible="{parts: [{path: 'detail>/TaskSupports/Attachments'}, {path: 'detail>/SupportsAttachments'}], formatter:'cross.fnd.fiori.inbox.Conversions.formatterSupportsProperty'}"
+								key="ATTACHMENTS">
+								<!-- Extends the attachments tab content -->
+								<core:ExtensionPoint name="CustomerExtensionForAttachmentTabContent">
+									<core:ComponentContainer id="attachmentComponent" class="attachmentsCss"/>
+								</core:ExtensionPoint>
+							</IconTabFilter>
+							<IconTabFilter icon="sap-icon://process" key="approvingSteps">
+								<graph:Graph enableWheelZoom="false" orientation="TopBottom" height="100%" width="100%" nodes="{flowModel>/nodes}"
+									lines="{flowModel>/lines}">
+									<graph:nodes>
+										<graph:Node key="{flowModel>key}" title="{flowModel>title}" icon="{flowModel>icon}" width="300%"
+											attributes="{path:'flowModel>attributes', templateShareable:true}" showActionLinksButton="false" showDetailButton="false"
+											showExpandButton="false" status="{flowModel>status}" shape="Box">
+											<graph:attributes>
+												<graph:ElementAttribute label="{flowModel>label}" value="{flowModel>value}" icon="{flowModel>icon}"/>
+											</graph:attributes>
+										</graph:Node>
+									</graph:nodes>
+									<graph:lines>
+										<graph:Line from="{flowModel>from}" to="{flowModel>to}" press="linePress"></graph:Line>
+									</graph:lines>
+								</graph:Graph>
+							</IconTabFilter>
+							<!--<IconTabFilter id="MIBObjectLinksTabFilter" icon="sap-icon://chain-link" tooltip="{i18n>relatedObjects.tooltip}"-->
+							<!--	count="{detail>/ObjectLinksCount}"-->
+							<!--	visible="{ path: 'detail>/TaskSupports/TaskObject', formatter: 'cross.fnd.fiori.inbox.Conversions.formatterVisibilityOfObjectIconTab' }"-->
+							<!--	key="OBJECTLINKS">-->
+							<!--	<core:ExtensionPoint name="CustomerExtensionForObjectLinkTabContent">-->
+							<!--		<core:Fragment fragmentName="cross.fnd.fiori.inbox.frag.ObjectLinks" type="XML"/>-->
+							<!--	</core:ExtensionPoint>-->
+							<!--</IconTabFilter>-->
+							<!-- Extends the tab bar with additional tabs -->
+							<core:ExtensionPoint name="CustomerExtensionForAdditionalTabs"/>
+						</items>
+					</IconTabBar>
+					<core:ExtensionPoint name="CustomerExtensionForAdditionalDetails"/>
+				</layout:mainContent>
+				<layout:sideContent>
+					<IconTabBar id="tabBarLogs" select="onLogTabSelect" headerBackgroundDesign="Transparent">
+						<items>
+							<IconTabFilter id="WorkflowLogIconTabFilter" text="{i18n>XBUT_WORKFLOW_LOG}" tooltip="{i18n>workflowlog.tooltip}"
+								visible="{path: 'detail>/TaskSupports/WorkflowLog', formatter: 'cross.fnd.fiori.inbox.Conversions.formatterLogTaskSupportsProperty'}"
+								key="WORKFLOWLOG">
+								<content>
+									<suite:Timeline id="timelineWorkflowLog" showHeaderBar="false" enableScroll="false" growing="true"/>
+								</content>
+							</IconTabFilter>
+							<IconTabFilter id="TaskLogIconTabFilter" text="{i18n>XBUT_TASK_LOG}" tooltip="{i18n>tasklog.tooltip}"
+								visible="{path: 'detail>/TaskSupports/ProcessingLogs', formatter: 'cross.fnd.fiori.inbox.Conversions.formatterLogTaskSupportsProperty'}"
+								key="TASKLOG">
+								<content>
+									<core:ExtensionPoint name="CustomerExtensionForHistoryTabContent">
+										<suite:Timeline id="timeline" showHeaderBar="false" enableScroll="false" growing="true"/>
+									</core:ExtensionPoint>
+								</content>
+							</IconTabFilter>
+						</items>
+					</IconTabBar>
+					<!--	End of Side content
+					<cust:InvisibleControl xmlns:cust="cross.fnd.fiori.inbox.util" id="InvisibleTabStop" ariaLabelledBy="ACC_Text"/>
+					<core:InvisibleText id="ACC_Text" text="{i18n>SIDE_CONTENT_END_INFO}"/> -->
+				</layout:sideContent>
+			</layout:DynamicSideContent>
+		</ScrollContainer>
+		<footer>
+			<Bar/>
+		</footer>
+	</Page>
+</core:View>

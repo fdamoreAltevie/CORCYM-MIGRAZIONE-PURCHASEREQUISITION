@@ -1,0 +1,53 @@
+<mvc:View xmlns="sap.m" xmlns:semantic="sap.f.semantic" xmlns:semanticm="sap.m.semantic" xmlns:mvc="sap.ui.core.mvc" controllerName="purchaserequisitionapproval.controller.Master" displayBlock="true">
+
+	<semantic:SemanticPage id="masterPage" preserveHeaderStateOnScroll="true" toggleHeaderOnTitleClick="false" showFooter="true" floatingFooter="false">
+		<semantic:titleHeading>
+			<Title id="masterPageTitle" text="{masterView>/title}" level="H6" class="titleAlign" textAlign="Center" titleStyle="H6"/>
+		</semantic:titleHeading>
+        <semantic:titleMainAction>
+			<semantic:TitleMainAction id="editAction" icon="sap-icon://multi-select" press="onEdit"/>
+		</semantic:titleMainAction>
+		<semantic:content>
+			<!-- For client side filtering add this to the items attribute: parameters: {operationMode: 'Client'}}" -->
+			<List id="list" width="auto" class="sapFDynamicPageAlignContent" items="{modelMaster>/Task}" busyIndicatorDelay="{masterView>/delay}" noDataText="{masterView>/noDataText}" mode="{= ${device>/system/phone} ? 'None' : 'SingleSelectMaster'}" growing="true" growingScrollToLoad="true" updateFinished=".onUpdateFinished" selectionChange=".onSelectionChange">
+				<headerToolbar>
+					<OverflowToolbar>
+						<SearchField id="searchField" showRefreshButton="true" tooltip="{i18n>masterSearchTooltip}" search=".onSearch" width="100%">
+						</SearchField>
+                    
+					</OverflowToolbar>
+				</headerToolbar>
+				<items>
+					
+ <CustomListItem id="MAIN_LIST_ITEM" type="{device>/listItemType}" press="_handleItemPress" class="customListItem" title="{i18n>PurchaseRequisition}: {modelMaster>PurchaseRequisition}" intro="{parts: [{path: 'modelMaster>TipoDocumentoDesc'}, {path: 'modelMaster>RequesterDesc'}]}" number="{i18n>TotalValue}: {modelMaster>TotalValue}" numberUnit="{modelMaster>Currency}">
+                    <VBox>
+                        <HBox class="ListItemSpacer">
+                        <Text class="bolderClass ListItemSpacerFirst" text="{i18n>PurchaseRequisition}:"/>
+                        <Text class="bolderClass ListItemSpacerFirst" text="{modelMaster>PurchaseRequisition}"/>
+                        <Text class="bolderClass ListItemSpacerFirst" text="{modelMaster>InstanceID}" visible="false"/>
+                        </HBox>
+                        <HBox class="ListItemSpacer">
+                        <Text text="{i18n>PurchasingType}:"/>
+                        <Text text="{modelMaster>TipoDocumentoDesc}" class="bolderClass"/>
+                        </HBox>
+                        <HBox class="ListItemSpacer">
+                        <Text text="{i18n>SAPRequestionair}: "/>
+                        <Text text="{modelMaster>RequesterDesc}" class="bolderClass"/>
+                        </HBox>
+                        <HBox class="ListItemSpacer">
+                        <Text text="{i18n>TotalValue}: "/>
+                        <Text text="{modelMaster>TotalValue} {modelMaster&gt;Currency}" class="bolderClass"/>
+                        </HBox>
+                    </VBox>
+				</CustomListItem>
+
+				</items>
+			</List>
+		</semantic:content>
+        	<semantic:footerCustomActions>
+             <Button id="f1" icon="sap-icon://sort" press=".onOpenViewSettings"/>
+            <Button id="f2" icon="sap-icon://filter" press=""/>
+            <Button id="f3" icon="sap-icon://group-2" press=""/>
+		</semantic:footerCustomActions>
+	</semantic:SemanticPage>
+</mvc:View>
