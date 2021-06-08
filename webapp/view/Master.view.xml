@@ -1,14 +1,8 @@
-<mvc:View xmlns="sap.m" xmlns:semantic="sap.f.semantic" xmlns:semanticm="sap.m.semantic" xmlns:mvc="sap.ui.core.mvc" controllerName="purchaserequisitionapproval.controller.Master" displayBlock="true">
+<mvc:View xmlns="sap.m" xmlns:semantic="sap.f.semantic" xmlns:mvc="sap.ui.core.mvc" controllerName="purchaserequisitionapproval.controller.Master">
 
-	<semantic:SemanticPage id="masterPage" preserveHeaderStateOnScroll="true" toggleHeaderOnTitleClick="false" showFooter="true" floatingFooter="false">
-		<semantic:titleHeading>
-			<Title id="masterPageTitle" text="{masterView>/title}" level="H6" class="titleAlign" textAlign="Center" titleStyle="H6"/>
-		</semantic:titleHeading>
-        <semantic:titleMainAction>
-			<semantic:TitleMainAction id="editAction" icon="sap-icon://multi-select" press="onEdit"/>
-		</semantic:titleMainAction>
-		<semantic:content>
-			<!-- For client side filtering add this to the items attribute: parameters: {operationMode: 'Client'}}" -->
+<Page id="masterPage" title="{masterView>/title}" titleAlignment="Center">
+		<content>
+
 			<List id="list" width="auto" class="sapFDynamicPageAlignContent" items="{modelMaster>/Task}" busyIndicatorDelay="{masterView>/delay}" noDataText="{masterView>/noDataText}" mode="{= ${device>/system/phone} ? 'None' : 'SingleSelectMaster'}" growing="true" growingScrollToLoad="true" updateFinished=".onUpdateFinished" selectionChange=".onSelectionChange">
 				<headerToolbar>
 					<OverflowToolbar>
@@ -43,11 +37,14 @@
 
 				</items>
 			</List>
-		</semantic:content>
-        	<semantic:footerCustomActions>
-             <Button id="f1" icon="sap-icon://sort" press=".onOpenViewSettings"/>
-            <Button id="f2" icon="sap-icon://filter" press=""/>
-            <Button id="f3" icon="sap-icon://group-2" press=""/>
-		</semantic:footerCustomActions>
-	</semantic:SemanticPage>
+ 	</content>
+		<footer>
+        	<Toolbar>
+				<ToolbarSpacer/>
+			     <Button id="f1" icon="sap-icon://sort" press=""/>
+                 <Button id="f2" icon="sap-icon://filter" press=""/>
+                 <Button id="f3" icon="sap-icon://group-2" press=""/>
+            </Toolbar>
+		</footer>
+	</Page>
 </mvc:View>

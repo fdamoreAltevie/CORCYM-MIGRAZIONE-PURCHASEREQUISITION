@@ -1,7 +1,7 @@
 _schema-version: "3.2"
 ID: purchaserequisitionapproval
 description: Purchase Requisition Approval
-version: 0.0.3
+version: 0.0.5
 modules:
 - name: purchaserequisitionapproval-dest-content
   type: com.sap.application.content

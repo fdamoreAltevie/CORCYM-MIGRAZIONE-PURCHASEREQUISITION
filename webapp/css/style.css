@@ -1,4 +1,132 @@
 .bolderClass{font-weight: 700!Important;}
 .ListItemSpacer{margin-bottom:0.375rem!Important;margin-left:0.45rem!Important;}
-.ListItemSpacerFirst{margin-bottom:0.575rem!Important;margin-top:0.575rem!Important;margin-left:0.45rem!Important;font-size: 1.2rem!Important;}
+.ListItemSpacerFirst{margin-bottom:0.575rem!Important;margin-top:0.575rem!Important;font-size: 1.2rem!Important;}
 .titleAlign{text-align: center!Important}
+.sapMTB {background: #ffffff!Important;}
+
+.sapSuiteUiCommonsNetworkGraphDivNodeLabels{
+	visibility: collapse !important;
+	width: 5% !important;
+}
+
+.sapSuiteUiCommonsNetworkGraphDivNodeAttributesIcons{
+	width: 5% !important;
+}
+
+.sapSuiteUiCommonsNetworkGraphDivNodeValues{
+	width: 80% !important;
+}
+
+.fakeInputs .sapMInputBaseReadonlyWrapsapSuiteUiCommonsNetworkGraphDivNodeValuesper .sapMInputBaseInner {
+    border: 1px solid #bfbfbf;
+}
+
+.centerCustomItem{
+	padding-left: 1rem !important;
+	padding: 0.5rem !important;
+}
+
+.customListItem .sapMText{
+	padding-top: 0.2rem !important;
+	padding-bottom: 0.1rem !important;
+	padding-left: 0.1rem !important;
+    /*font-size: 0.9rem !important;*/
+}
+
+.customListItem .sapMTitle{
+	padding-top: 0.2rem !important;
+	padding-bottom: 0.1rem !important;
+	padding-left: 0.1rem !important;
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+}
+
+
+.sapMBtnInner {
+    margin-right: 0.5rem !important;
+    margin-left: 0.5rem !important;
+}
+
+.detailPageMyInbox .sapMPageFooter .sapMBarRight{
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: space-between;
+	padding-right: 0rem; 
+}
+
+.positionTableMainText {
+    font-weight: 700 !important;
+    left: 2px;
+    position: relative;
+}
+
+.positionTableLabel {
+    /*font-style: italic;*/
+}
+
+.underline .sapMObjectAttributeText {
+    text-decoration: underline;
+}
+
+.biggerObjectAtt .sapMObjectAttributeText {
+    font-size: 1.1rem !important;
+}
+
+.biggerAttribute .sapMText,
+.biggerAttribute .sapMObjectAttributeText{
+    font-size: 1.3rem !important;
+}
+
+.bolder {
+    font-weight: 700 !important;
+}
+
+.biggerSpacesTable .sapMLIBShowSeparator>td {
+    border-bottom: 1px solid #ff5c39 !important;
+}
+
+.vboxPricesMargin {
+    border: 1px solid #ff5c39b3;
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+    padding: 0.2rem;
+}
+
+html .sapUiContainer-Narrow .sapMOH,
+html.sap-desktop.sapUiMedia-Std-Phone .sapMOH,
+html.sap-phone .sapMOH {
+	/* spazi ridotti in testata */
+    padding: 0.8rem 1rem;
+}
+
+.sapMOHBottomRow {
+	/* spazi ridotti in testata*/
+    margin-top: 0.5em;
+    font-size: .875rem;
+}
+
+.sapMListTbl .sapMText,
+.sapMListTbl .sapMLabel {
+	/*spazi nei testi*/
+    margin: 0.05rem;
+}
+
+.leftItems .sapMTextLineClamp{
+	font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.attachmentsCss .sapMUCButtonContainer{
+	visibility: collapse !important;
+    height: 0;
+}
+
+.classSize{font-size:1.2rem!Important;}
+.classSize2{font-size:1.4rem!Important;}
+.MarginBox{padding:1rem;}
+
+.sapMSplitContainerMaster {
+  
+    width: 23rem !Important;
+
+}

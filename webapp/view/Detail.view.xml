@@ -3,16 +3,16 @@
 	xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form"
 	xmlns:layout="sap.ui.layout" xmlns:sap.ca.ui="sap.ca.ui" xmlns:suite="sap.suite.ui.commons" xmlns:f="sap.ui.layout.form"
 	xmlns:graph="sap.suite.ui.commons.networkgraph">
-	<Page id="mainPage" showSubHeader="{= ${deviceModel>/system/phone} &amp;&amp; ${deviceModel>/orientation/portrait}}"
+	<Page title="{i18n>titleDetail}" titleAlignment="Center" id="mainPage" showSubHeader="{= ${deviceModel>/system/phone} &amp;&amp; ${deviceModel>/orientation/portrait}}"
 		class="detailPageMyInbox" enableScrolling="false">
 		<headerContent></headerContent>
-		<subHeader>
+	<!--	<subHeader>
 			<Bar>
 				<contentRight>
 					<Image src="{rootPath>/path}/images/logo.png" height="2.5rem"/>
 				</contentRight>
 			</Bar>
-		</subHeader>
+		</subHeader>-->
 		<ScrollContainer height="95%" vertical="true" horizontal="false">
 			<layout:DynamicSideContent id="DynamicSideContent" class="sapUiDSCExplored" sideContentFallDown="BelowM" containerQuery="true"
 				sideContentVisibility="ShowAboveS" showSideContent="false" breakpointChanged="updateToggleButtonState">
@@ -22,23 +22,23 @@
 					<!-- Extends the header section -->
 					<core:ExtensionPoint name="CustomerExtensionForObjectHeader">
 						
-                         <VBox>
+                         <VBox class="MarginBox">
                         <HBox class="ListItemSpacer">
-                        <Text class="bolderClass ListItemSpacerFirst" text="{i18n>PurchaseRequisition}:"/>
-                        <Text class="bolderClass ListItemSpacerFirst" text="{PurchaseRequisition}"/>
-                        <Text class="bolderClass ListItemSpacerFirst" text="{InstanceID}" visible="false"/>
+                        <Text class="ListItemSpacerFirst classSize2" text="{i18n>PurchaseRequisition}: "/>
+                        <Text class="ListItemSpacerFirst classSize2" text="{PurchaseRequisition}"/>
+                        <Text class="ListItemSpacerFirst classSize2" text="{InstanceID}" visible="false"/>
                         </HBox>
-                        <HBox class="ListItemSpacer">
-                        <Text text="{i18n>PurchasingType}:"/>
-                        <Text text="{TipoDocumentoDesc}" class="bolderClass"/>
+                        <HBox class="ListItemSpacer classSize">
+                        <Text text="{i18n>PurchasingType}: " class="classSize"/>
+                        <Text text=" {TipoDocumentoDesc}" class="bolderClass classSize"/>
                         </HBox>
-                        <HBox class="ListItemSpacer">
-                        <Text text="{i18n>SAPRequestionair}: "/>
-                        <Text text="{RequesterDesc}" class="bolderClass"/>
+                        <HBox class="ListItemSpacer classSize">
+                        <Text text="{i18n>SAPRequestionair}: " class="classSize"/>
+                        <Text text=" {RequesterDesc}" class="bolderClass classSize"/>
                         </HBox>
-                        <HBox class="ListItemSpacer">
-                        <Text text="{i18n>TotalValue}: "/>
-                        <Text text="{TotalValue} {Currency}" class="bolderClass"/>
+                        <HBox class="ListItemSpacer classSize">
+                        <Text text="{i18n>TotalValue}: " class="classSize"/>
+                        <Text text=" {TotalValue} {Currency}" class="bolderClass classSize"/>
                         </HBox>
                     </VBox>
 
@@ -60,9 +60,9 @@
 									</VBox>
 								</core:ExtensionPoint>
 							</IconTabFilter>
-							<IconTabFilter icon="sap-icon://checklist-item-2" tooltip="{i18n>ExtNewLblPositions}" count="{Positions/results/length}"
+							<IconTabFilter icon="sap-icon://checklist-item-2" tooltip="{i18n>ExtNewLblPositions}" count="{tabFilterModel>/countPosition}"
 								visible="true" key="positions">
-								<Table items="{Positions}" class="biggerSpacesTable">
+								<Table id="TablePosition" items="{extendedJsonModel>/Positions/results/}" class="biggerSpacesTable" updateFinished="updateCountPosition">
 									<columns>
 										<Column vAlign="Top" width="10%" visible="{= !${deviceModel>/system/phone}}">
 											<!--<Text text="{i18n>ExtNewLblCol1}"/>-->
@@ -87,13 +87,13 @@
 											<cells>
 												<VBox>
 													<Text text="{i18n>ExtNewLblCol1}: " class="positionTableLabel"/>
-													<Text text="{= Number(${Position})}" class="positionTableMainText"/>
+													<Text text="{= Number(${extendedJsonModel>Position})}" class="positionTableMainText"/>
 												</VBox>
 												<VBox class="sapUiTinyMarginTop">
 													<HBox fitContainer="true" width="100%">
 														<HBox visible="{deviceModel>/system/phone}" fitContainer="true" width="100%">
 															<Text text="{i18n>ExtNewLblCol1}: " class="positionTableLabel"/>
-															<Text text="{= Number(${Position})}" class="positionTableMainText"/>
+															<Text text="{= Number(${extendedJsonModel>Position})}" class="positionTableMainText"/>
 														</HBox>
 														<!--<HBox fitContainer="true" width="70%">-->
 														<!--	<Text text="{i18n>ExtNewLblColMaterialGroup}: " class="positionTableLabel"/>-->
@@ -108,42 +108,42 @@
 														<!--</HBox>-->
 														<HBox fitContainer="true" width="100%">
 															<Text text="{i18n>ExtNewLblColMaterialGroup}: " class="positionTableLabel"/>
-															<Text text="{= !${deviceModel>/system/phone} ? ( ${MaterialGroupCode} + ' -' ) : ''} {MaterialGroupDes}"
+															<Text text="{= !${deviceModel>/system/phone} ? ( ${extendedJsonModel>MaterialGroupCode} + ' -' ) : ''} {extendedJsonModel>MaterialGroupDes}"
 																class="positionTableMainText"/>
 														</HBox>
 													</HBox>
 													<HBox>
 														<Text text="{i18n>ExtNewLblColRequisitionDescription}: " class="positionTableLabel"/>
-														<Text text="{ShortText}" class="positionTableMainText"/>
+														<Text text="{extendedJsonModel>ShortText}" class="positionTableMainText"/>
 													</HBox>
 													<HBox fitContainer="true" width="100%" class="vboxPricesMargin">
 														<VBox fitContainer="true" width="50%">
 															<Text text="{i18n>ExtNewLblColQuantity}:" class="positionTableLabel"/>
-															<Text text="{Quantity} {UM} x {ValuationPrice} {Currency}"
+															<Text text="{extendedJsonModel>Quantity} {UM} x {extendedJsonModel>ValuationPrice} {extendedJsonModel>Currency}"
 																class="positionTableMainText"/>
 														</VBox>
 														<VBox fitContainer="true" width="50%">
 															<Text text="{i18n>ExtNewLblColTotalValue}:" class="positionTableLabel"/>
-															<Text text="{TotalValue} {Currency}" class="positionTableMainText"/>
+															<Text text="{extendedJsonModel>TotalValue} {extendedJsonModel>Currency}" class="positionTableMainText"/>
 														</VBox>
 													</HBox>
 													<HBox class="">
 														<Text text="{i18n>ExtNewLblColFixedVendor}: " class="positionTableLabel"/>
-														<ObjectAttribute text=" {FixedVendorDes} ({= Number(${FixedVendorCode})})" active="true"
+														<ObjectAttribute text=" {extendedJsonModel>FixedVendorDes} ({= Number(${extendedJsonModel>FixedVendorCode})})" active="true"
 															press="onVendorLaunchTask" class="positionTableLabel"/>
 														<!--<Text text="{extendedJsonModel>FixedVendorDes} ({= Number(${extendedJsonModel>FixedVendorCode})})" class="positionTableMainText"/>-->
 													</HBox>
 													<HBox>
 														<Text text="{i18n>ExtNewLblColRequestor}: " class="positionTableLabel"/>
-														<Text text="{Requestor}" class="positionTableMainText"/>
+														<Text text="{extendedJsonModel>Requestor}" class="positionTableMainText"/>
 													</HBox>
 													<HBox>
 														<Text text="{i18n>ExtNewLblColDeliveryDate}: " class="positionTableLabel"/>
-														<Text text="{DeliveryDate}" class="positionTableMainText"/>
+														<Text text="{extendedJsonModel>DeliveryDate}" class="positionTableMainText"/>
 													</HBox>
-													<ObjectAttribute text="{= ${showAllRows} ? ${i18n>ExtNewLblColShowLess} : ${i18n>ExtNewLblColShowMore}}"
+													<ObjectAttribute text="{= ${extendedJsonModel>showAllRows} ? ${i18n>ExtNewLblColShowLess} : ${i18n>ExtNewLblColShowMore}}"
 														press="onPressShowMore" active="true" class="underline"/>
-													<VBox class="vboxPricesMargin" visible="{showAllRows}">
+													<VBox class="vboxPricesMargin" visible="{extendedJsonModel>showAllRows}">
 														<HBox>
 															<Text text="{i18n>ExtNewLblColPlant}: " class="positionTableLabel"/>
 															<Text text="{= !${deviceModel>/system/phone} ? ( ${PlantCode} + ' -' ) : ''} {PlantDes}"
@@ -152,17 +152,17 @@
 														<HBox>
 															<Text text="{i18n>ExtNewLblColCostCenter}:" class="positionTableLabel"/>
 															<Text
-																text="{CostCenterDes} {= !!${CostCenterCode} ? ( '(' + ${CostCenterCode} + ')' ) : ''}"
+																text="{extendedJsonModel>CostCenterDes} {= !!${extendedJsonModel>CostCenterCode} ? ( '(' + ${extendedJsonModel>CostCenterCode} + ')' ) : ''}"
 																class="positionTableMainText"/>
 														</HBox>
 														<HBox>
 															<Text text="{i18n>ExtNewLblColInternalOrder}:" class="positionTableLabel"/>
-															<Text text="{OrderDes} {= !!${OrderCode} ? ( '(' + ${OrderCode} + ')' ) : ''}"
+															<Text text="{extendedJsonModel>OrderDes} {= !!${extendedJsonModel>OrderCode} ? ( '(' + ${extendedJsonModel>OrderCode} + ')' ) : ''}"
 																class="positionTableMainText"/>
 														</HBox>
 														<VBox>
 															<Text text="{i18n>ExtNewLblColLongDescription}:" class="positionTableLabel"/>
-															<Text text="{ItemText}" class="positionTableMainText"/>
+															<Text text="{extendedJsonModel>ItemText}" class="positionTableMainText"/>
 														</VBox>
 													</VBox>
 												</VBox>
@@ -173,12 +173,35 @@
 							</IconTabFilter>
 							<IconTabFilter id="MIBAttachmentIconTabFilter" icon="sap-icon://attachment" tooltip="{i18n>attachments.tooltip}"
 								count="{detail>/AttachmentsCount}"
-								visible="{parts: [{path: 'detail>/TaskSupports/Attachments'}, {path: 'detail>/SupportsAttachments'}], formatter:'cross.fnd.fiori.inbox.Conversions.formatterSupportsProperty'}"
+								visible="true"
 								key="ATTACHMENTS">
-								<!-- Extends the attachments tab content -->
-								<core:ExtensionPoint name="CustomerExtensionForAttachmentTabContent">
-									<core:ComponentContainer id="attachmentComponent" class="attachmentsCss"/>
-								</core:ExtensionPoint>
+                            
+
+<UploadCollection id="uploadCollection" items="{detail>/Attachments}" uploadEnabled="false"  uploadComplete="onAttachmentUploadComplete" fileDeleted="onAttachmentDeleted" change="onAttachmentChange" sameFilenameAllowed="true">
+                                <items>
+                                <UploadCollectionItem 
+                                    contributor="{detail>CreatedByName}"
+                                    documentId="{detail>ID}" 
+                                    fileName="{detail>FileName}"
+                                    mimeType="{detail>mime_type}" 
+                                    uploadedDate="{path: 'detail>CreatedAt', type: 'sap.ui.model.type.DateTime', formatOptions: { style: 'medium'}}"
+                                    url="{ path: 'detail>__metadata/media_src', formatter: '' }"
+                                    enableEdit="false"
+                                    visibleEdit="false"			
+                                    visibleDelete = "false">
+                                    
+                                    <attributes>
+                                        <ObjectAttribute
+                                            text="{path: 'detail>FileSize', type: 'sap.ui.model.type.FileSize'}"
+                                        />
+                                    </attributes>
+                                    
+                                </UploadCollectionItem>
+                                </items>
+                                <parameters/>
+                            </UploadCollection>
+
+
 							</IconTabFilter>
 							<IconTabFilter icon="sap-icon://process" key="approvingSteps">
 								<graph:Graph enableWheelZoom="false" orientation="TopBottom" height="100%" width="100%" nodes="{flowModel>/nodes}"
@@ -239,7 +262,11 @@
 			</layout:DynamicSideContent>
 		</ScrollContainer>
 		<footer>
-			<Bar/>
+			<Toolbar>
+                <Button id="Btn_Reject" type="Reject" text="{i18n>Reject}" press="checkBlocks"/>
+				<ToolbarSpacer/>
+                 <Button id="Btn_Accept" type="Accept" text="{i18n>Accept}" press="checkBlocks"/>
+            </Toolbar>
 		</footer>
 	</Page>
 </core:View>

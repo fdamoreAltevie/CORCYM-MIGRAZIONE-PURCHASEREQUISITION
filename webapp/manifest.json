@@ -115,7 +115,9 @@
                 "viewType": "XML",
                 "viewPath": "purchaserequisitionapproval.view",
                 "controlId": "layout",
-                "controlAggregation": "beginColumnPages",
+                "controlId": "idAppControl",
+				"controlAggregation": "detailPages",
+                "clearControlAggregation": false,
                 "bypassed": {
                     "target": "notFound"
                 },
@@ -136,17 +138,22 @@
                     ]
                 }
             ],
-            "targets": {
+              "targets": {
                 "master": {
                     "viewName": "Master",
                     "viewLevel": 1,
-                    "viewId": "master"
-                },
+                    "viewId": "master",
+                    "viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"controlAggregation": "masterPages",
+					"viewLevel": 0
+
+                }, 
                 "object": {
                     "viewName": "Detail",
                     "viewId": "detail",
-                    "viewLevel": 1,
-                    "controlAggregation": "midColumnPages"
+                    "viewLevel": 2
                 },
                 "detailObjectNotFound": {
                     "viewName": "DetailObjectNotFound",

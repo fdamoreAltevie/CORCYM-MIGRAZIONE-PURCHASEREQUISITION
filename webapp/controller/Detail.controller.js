@@ -8,6 +8,9 @@ sap.ui.define([
 
 	// shortcut for sap.m.URLHelper
 	var URLHelper = mobileLibrary.URLHelper;
+    var string_filter = "";
+    var filters = [];
+
 
 	return BaseController.extend("purchaserequisitionapproval.controller.Detail", {
 
@@ -31,8 +34,58 @@ sap.ui.define([
 
 			this.setModel(oViewModel, "detailView");
 
-			this.getOwnerComponent().getModel().metadataLoaded().then(this._onMetadataLoaded.bind(this));
-		},
+            this.getOwnerComponent().getModel().metadataLoaded().then(this._onMetadataLoaded.bind(this));
+            
+            //SETTING UP DEVICE MODEL TYPE
+            this.createDeviceModel();
+        },
+
+        updateCountPosition:function(){
+
+            var TablePositionNumItem = this.getView().byId("TablePosition").getItems().length;
+            var Jsonmodel = {
+
+                countPosition: TablePositionNumItem
+            };
+            var oModel = new sap.ui.model.json.JSONModel(Jsonmodel);    
+            this.getView().setModel(oModel, "tabFilterModel");                   
+
+        },
+        
+        createDeviceModel: function () {
+		var device = sap.ui.Device;
+		var oModel = new sap.ui.model.json.JSONModel(device);
+		this.getView().setModel(oModel, "deviceModel");
+    },
+    
+    	onPressShowMore: function (oEvent) {
+        var path = oEvent.getSource().getParent().getParent().getBindingContextPath();
+        var position = this.getView().getModel("extendedJsonModel").getProperty(path);
+		position.showAllRows = !position.showAllRows;
+		this.getView().getModel("extendedJsonModel").refresh(true);
+
+		//var position = this.getView().getModel().getProperty(path);
+		//position.showAllRows = !position.showAllRows;
+		//this.getView().getModel().refresh(true);
+    },
+
+     checkBlocks: function(successCallback){
+		var purchaseRequisition = sap.ui.getCore().PurchaseRequisition;
+		sap.ui.core.BusyIndicator.show();
+		var extendedModel = this.getOwnerComponent().getModel();
+		extendedModel.read("/CheckBlocksSet(PurchaseRequisition='" + purchaseRequisition + "')", {
+			success: function (result) {
+				sap.ui.core.BusyIndicator.hide();
+                //successCallback();
+                alert('ok');
+			}.bind(this),
+			error: function (e) {
+				sap.ui.core.BusyIndicator.hide();
+				var message = JSON.parse(e.responseText).error.message.value;
+				sap.m.MessageBox.error(message);
+			}
+		});
+	},
 
 		/* =========================================================== */
 		/* event handlers                                              */
@@ -86,8 +139,11 @@ sap.ui.define([
 		 * @private
 		 */
 		_onObjectMatched : function (oEvent) {
-            var sObjectId =  oEvent.getParameter("arguments").objectId;
-            var sinstanceId =  oEvent.getParameter("arguments").instanceId;
+            
+            //LOCAL VARIABLES DEFINITION
+            var sObjectId        =  oEvent.getParameter("arguments").objectId;
+            var sinstanceId      =  oEvent.getParameter("arguments").instanceId;
+
 			this.getModel("appView").setProperty("/layout", "TwoColumnsMidExpanded");
 			this.getModel().metadataLoaded().then( function() {
 				var sObjectPath = this.getModel().createKey("ExtendedPropertiesRdaSet", {
@@ -98,8 +154,172 @@ sap.ui.define([
                     
 				});
 				this._bindView("/" + sObjectPath);
-			}.bind(this));
-		},
+            }.bind(this));
+            
+            sap.ui.getCore().PurchaseRequisition = sObjectId;
+            this.ReadApproverSetModel(sObjectId, sinstanceId);
+            this.ReadRdaAttachment(sObjectId, sinstanceId);
+        },
+        
+         ReadRdaAttachment: function(sObjectId, sinstanceId){
+
+            //VARIABLES DEFINITION
+            var oModel               = this.getOwnerComponent().getModel("TASKPROCESSING");
+            var PurchaseRequisition  =  sObjectId;
+            var InstanceID           =  sinstanceId;
+            var TaskDefinitionID     =  'TS00008267_WS90000007_0000000361';
+            var SAP__Origin          =  '/IWPGW/BWF';
+
+            //CLEARING FILTER VARIABLES
+               filters = [];
+
+               var InstanceFilter = new sap.ui.model.Filter("SAP__Origin", sap.ui.model.FilterOperator.EQ, SAP__Origin);
+               filters.push(InstanceFilter);
+
+               var InstanceFilter2 = new sap.ui.model.Filter("InstanceID", sap.ui.model.FilterOperator.EQ, InstanceID);
+               filters.push(InstanceFilter2);
+
+               //var InstanceFilter3 = new sap.ui.model.Filter("TaskDefinitionID", sap.ui.model.FilterOperator.EQ, TaskDefinitionID);
+               //filters.push(InstanceFilter3);
+               sap.ui.getCore().this = this;
+
+               oModel.read("/TaskCollection(SAP__Origin='%2FIWPGW%2FBWF',InstanceID='" + InstanceID + "')/Attachments", {
+						success: function (result) {
+                              var json={  Attachments : result.results,
+                                          AttachmentsCount: result.results.length };
+                              var jsonModel = new sap.ui.model.json.JSONModel(json);
+                              sap.ui.getCore().this.getOwnerComponent().setModel(jsonModel, "detail");
+
+						},
+						error: function (e) {
+							sap.ui.core.BusyIndicator.hide();
+							alert("Errore di comunicazione con il database.");
+						}
+					});
+
+
+
+        },
+
+
+
+         
+
+        ReadApproverSetModel: function(sObjectId, sinstanceId){
+
+            //VARIABLES DEFINITION
+            var PurchaseRequisition  =  sObjectId;
+            var InstanceID           =  sinstanceId;
+            var TaskDefinitionID     =  'TS00008267_WS90000007_0000000361';
+            var SAP__Origin         =  '/IWPGW/BWF';
+
+               var InstanceFilter = new sap.ui.model.Filter("SAP__Origin", sap.ui.model.FilterOperator.EQ, SAP__Origin);
+               filters.push(InstanceFilter);
+
+               var InstanceFilter2 = new sap.ui.model.Filter("InstanceID", sap.ui.model.FilterOperator.EQ, InstanceID);
+               filters.push(InstanceFilter2);
+
+               var InstanceFilter3 = new sap.ui.model.Filter("TaskDefinitionID", sap.ui.model.FilterOperator.EQ, TaskDefinitionID);
+               filters.push(InstanceFilter3);
+
+               //var InstanceFilter4 = new sap.ui.model.Filter("PurchaseRequisition", sap.ui.model.FilterOperator.EQ, PurchaseRequisition);
+               //filters.push(InstanceFilter4);
+
+                var extendedModel = this.getOwnerComponent().getModel();
+				extendedModel.read("/ExtendedPropertiesRdaSet", {
+						urlParameters: {
+							$expand: "Positions,ApprovingSteps"
+                        },
+                        filters: [filters],
+						success: function (result) {
+                            sap.ui.core.BusyIndicator.hide();
+                            var numOcc = result.results.length - 1;
+							var replaceBackslashes = function (string) {
+								var stringArray = string.split("\\n");
+								return stringArray.join("\n");
+                            };
+                            
+                            if (result.results[numOcc].HeaderNote != undefined){
+                            result.results[numOcc].HeaderNote = replaceBackslashes(result.results[numOcc].HeaderNote);
+                            }
+                            
+                            if(result.results[numOcc].ApprRejNote != undefined){
+                            result.results[numOcc].ApprRejNote = replaceBackslashes(result.results[numOcc].ApprRejNote);
+                            }
+
+							for (var i = 0; i < result.results[numOcc].Positions.results.length; i++) {
+							 	// format the itemText
+								result.results[numOcc].Positions.results[i].ItemText = replaceBackslashes(result.results[numOcc].Positions.results[i].ItemText);
+
+								// by default we wont show all the rows
+								result.results[numOcc].Positions.results[i].showAllRows = false;
+							}
+							
+							this.extendedJsonModel = new sap.ui.model.json.JSONModel(result.results[numOcc]);
+							this.getView().setModel(this.extendedJsonModel, "extendedJsonModel");
+							
+							this.flowGenerator(result.results[numOcc].ApprovingSteps.results);
+						}.bind(this),
+						error: function (e) {
+							sap.ui.core.BusyIndicator.hide();
+							alert("Errore di comunicazione con il database.");
+						}
+					});
+
+
+
+
+        },
+
+        	flowGenerator: function(approvers){
+		var nodes = [];
+		var lines = [];
+		var approversData = {
+			nodes: nodes,
+			lines: lines
+		};
+		
+		approvers.sort((el,el2)=>(el.Step-el2.Step));
+		
+		for(var i = 0; i < approvers.length; i++){
+			var nodeToModify = nodes.find(function(el){
+				return el.key === approvers[i].Step;
+			});
+			
+			if(!nodeToModify){
+				nodeToModify = {
+					key: approvers[i].Step,
+					title: approvers[i].StepName,
+					icon: approvers[i].Status ? "sap-icon://accept" : "sap-icon://pending",
+					status: approvers[i].Status ? "Success" : "Warning",
+					attributes: []
+				}
+				nodes.push(nodeToModify);
+			}
+			
+			if(approvers[i].Status){
+				nodeToModify.icon = "sap-icon://accept";
+				nodeToModify.status = "Success";
+			}
+			
+			nodeToModify.attributes.push({
+				label: "",
+				value: approvers[i].ApprovingDate + ( approvers[i].ApprovingDate ? " - " : "") + approvers[i].Name, //+ " (" + approvers[i].Approver + ")",
+				icon: approvers[i].Status ? "sap-icon://accept" : ""
+			});
+		}
+		
+		for(i = 1; i < nodes.length; i++){
+			lines.push({
+				from: nodes[i-1].key,
+				to: nodes[i].key,
+			});
+		}
+		
+		
+		var testModel = new sap.ui.model.json.JSONModel(approversData);
+		this.getView().setModel(testModel, "flowModel");
+	},
 
 		/**
 		 * Binds the view to the object path. Makes sure that detail view displays

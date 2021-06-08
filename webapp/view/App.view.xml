@@ -5,15 +5,19 @@
 	xmlns="sap.m"
 	xmlns:f="sap.f"
 	xmlns:mvc="sap.ui.core.mvc">
-	<App
+	<!-- <App
 		id="app"
 		busy="{appView>/busy}"
 		busyIndicatorDelay="{appView>/delay}">
-		<f:FlexibleColumnLayout
+		 <f:FlexibleColumnLayout
 			id="layout"
 			layout="{appView>/layout}"
 			backgroundDesign="Solid">
 		</f:FlexibleColumnLayout>
 
-	</App>
+	</App>-->
+
+    <SplitApp id="idAppControl">
+	</SplitApp>
+
 </mvc:View>
