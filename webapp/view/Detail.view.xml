@@ -263,9 +263,9 @@
 		</ScrollContainer>
 		<footer>
 			<Toolbar>
-                <Button id="Btn_Reject" type="Reject" text="{i18n>Reject}" press="checkBlocks"/>
+                <Button id="Btn_Reject" type="Reject" text="{i18n>Reject}" press="checkBlocksReject"/>
 				<ToolbarSpacer/>
-                 <Button id="Btn_Accept" type="Accept" text="{i18n>Accept}" press="checkBlocks"/>
+                 <Button id="Btn_Accept" type="Accept" text="{i18n>Accept}" press="checkBlocksRelease"/>
             </Toolbar>
 		</footer>
 	</Page>

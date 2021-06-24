@@ -3,7 +3,7 @@
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc">
 
-	<MessagePage
+	<!--<MessagePage
 		id="page"
 		title="{i18n>detailTitle}"
 		text="{i18n>noObjectFoundText}"
@@ -15,6 +15,6 @@
 			${device>/orientation/portrait}
 		}"
 		navButtonPress=".onNavBack">
-	</MessagePage>
+	</MessagePage>-->
 
 </mvc:View>

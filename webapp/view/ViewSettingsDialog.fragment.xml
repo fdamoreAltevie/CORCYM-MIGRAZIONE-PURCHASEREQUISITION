@@ -6,10 +6,17 @@
 		id="viewSettingsDialog"
 		confirm=".onConfirmViewSettingsDialog">
 		<sortItems>
-			<ViewSettingsItem
+			<!--<ViewSettingsItem
 				text="{i18n>masterSort1}"
-				key="PurchaseRequisition"
-				selected="true"/>
+				key="PurchaseRequisition" 
+				selected="true"/>-->
+
+            <ViewSettingsItem text="Purchase Requisition"   key="PurchaseRequisition" selected="true" />
+			<ViewSettingsItem text="Created By"   key="CreatedBy" selected="true" />
+			<ViewSettingsItem text="Priority"    key="Priority" />
+			<ViewSettingsItem text="Title"       key="Title" />
+            <ViewSettingsItem text="Created On"   key="CreatedOn" />
+            <ViewSettingsItem text="Due On"       key="DueOn" />
 
 		</sortItems>
 

@@ -41,9 +41,9 @@
 		<footer>
         	<Toolbar>
 				<ToolbarSpacer/>
-			     <Button id="f1" icon="sap-icon://sort" press=""/>
-                 <Button id="f2" icon="sap-icon://filter" press=""/>
-                 <Button id="f3" icon="sap-icon://group-2" press=""/>
+			     <Button id="f1" icon="sap-icon://sort" press="onOpenViewSettings"/>
+                 <Button id="f2" icon="sap-icon://filter" press="onOpenViewFilter"/>
+                 <Button id="f3" icon="sap-icon://group-2" press="onOpenGroupFilter"/>
             </Toolbar>
 		</footer>
 	</Page>

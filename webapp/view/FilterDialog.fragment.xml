@@ -1,0 +1,60 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<ViewSettingsDialog
+    id="viewFilterDialog"
+		confirm="handleConfirm">
+			<filterItems>
+			<ViewSettingsFilterItem text="Priority" key="Priority">
+				<items>
+					<ViewSettingsItem text="Very High" key="1a" />
+					<ViewSettingsItem text="High" key="1b" />
+					<ViewSettingsItem text="Medium" key="1c" />
+                    <ViewSettingsItem text="Low" key="1d" />
+				</items>
+			</ViewSettingsFilterItem>
+			<ViewSettingsFilterItem text="Due On" key="DueOn">
+				<items>
+					<ViewSettingsItem text="Overdue" key="2a" />
+					<ViewSettingsItem text="Due Whitin 7 days" key="2b" />
+					<ViewSettingsItem text="Due Whitin 30 days" key="2c" />
+                    <ViewSettingsItem text="All" key="2d" />
+				</items>
+			</ViewSettingsFilterItem>
+			<ViewSettingsFilterItem text="Status" key="Status">
+				<items>
+					<ViewSettingsItem text="Ready" key="3a" />
+					<ViewSettingsItem text="In Progress" key="3b" />
+					<ViewSettingsItem text="Executed" key="3c" />
+                    <ViewSettingsItem text="Reserved" key="3d" />
+				</items>
+			</ViewSettingsFilterItem>
+
+            	<ViewSettingsFilterItem text="Creation Date" key="CreatedOn">
+				<items>
+					<ViewSettingsItem text="Today" key="3a" />
+					<ViewSettingsItem text="Past 7 days" key="3b" />
+					<ViewSettingsItem text="Past 30 days" key="3c" />
+                    <ViewSettingsItem text="All" key="3d" />
+				</items>
+			</ViewSettingsFilterItem>
+
+            <ViewSettingsFilterItem text="My Task and My Task on Beahlf of" key="4">
+				<items>
+				</items>
+			</ViewSettingsFilterItem>
+
+            <ViewSettingsFilterItem text="Task Type" key="Type">
+				<items>
+					<ViewSettingsItem text="Approve Invoice" key="3a" />
+					<ViewSettingsItem text="DP Documento Dashboard" key="3b" />
+					<ViewSettingsItem text="Invoice" key="3c" />
+
+                    <ViewSettingsItem text="Po Invoice DashBoard (line Level)" key="3d" />
+                    <ViewSettingsItem text="Release Purchase Requisition" key="3e" />
+       
+				</items>
+			</ViewSettingsFilterItem>
+		</filterItems>
+	</ViewSettingsDialog>
+</core:FragmentDefinition>

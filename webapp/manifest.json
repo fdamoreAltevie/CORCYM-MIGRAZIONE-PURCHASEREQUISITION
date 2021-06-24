@@ -41,8 +41,8 @@
                     "subTitle": "",
                     "icon": "sap-icon://inbox",
                     "indicatorDataSource": {
-                        "dataSource": "TASKPROCESSING",
-                        "path": "/sap/opu/odata/IWPGW/TASKPROCESSING;mo;v=2/TaskCollection/$count/?$filter=TaskDefinitionID eq 'TS00008267_WS90000007_0000000361' and (Status eq 'READY' or Status eq 'RESERVED' or Status eq 'IN_PROGRESS' or Status eq 'EXECUTED')",
+                        "dataSource": "SAP_Gateway",
+                        "path": "/dynamic_dest/SAP_Gateway/sap/opu/odata/IWPGW/TASKPROCESSING;mo;v=2/TaskCollection/$count/?$filter=TaskDefinitionID eq 'TS00008267_WS90000007_0000000361' and (Status eq 'READY' or Status eq 'RESERVED' or Status eq 'IN_PROGRESS' or Status eq 'EXECUTED')",
                         "refresh": 300
                     } 
                 }
@@ -157,8 +157,7 @@
                 },
                 "detailObjectNotFound": {
                     "viewName": "DetailObjectNotFound",
-                    "viewId": "detailObjectNotFound",
-                    "controlAggregation": "midColumnPages"
+                    "viewId": "detailObjectNotFound"
                 },
                 "notFound": {
                     "viewName": "NotFound",

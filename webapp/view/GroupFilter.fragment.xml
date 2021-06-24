@@ -1,0 +1,15 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<ViewSettingsDialog
+    id="viewGroupDialog"
+		confirm="handleConfirm">
+		<groupItems>
+			<ViewSettingsItem text="Priority" key="Priority" selected="true" />
+			<ViewSettingsItem text="Task Type" key="Type" />
+			<ViewSettingsItem text="Status" key="Status" />
+            <ViewSettingsItem text="Reservation" key="Reservation" />
+            <ViewSettingsItem text="None" key="" />
+		</groupItems>
+	</ViewSettingsDialog>
+</core:FragmentDefinition>

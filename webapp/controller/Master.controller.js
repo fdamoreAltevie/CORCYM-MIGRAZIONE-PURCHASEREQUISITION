@@ -65,6 +65,21 @@ sap.ui.define([
 
             this.getRouter().getRoute("master").attachPatternMatched(this._onMasterMatched, this);
             this.getRouter().attachBypassed(this.onBypassed, this);
+
+            var oEventBus = this.getOwnerComponent().getEventBus();
+            oEventBus.subscribe("Detail", "selectFirstItemAfter", this.selectFirstItemAfter, this);
+
+        },
+
+        selectFirstItemAfter: function(){
+
+            var bReplace = !Device.system.phone;
+            var that = this;
+            sap.ui.getCore().this = this;
+            Promise.all([this.getTaskProcessing()]).then(that.getRdaProperties.bind(that));
+            //this.getRouter().navTo("detailObjectNotFound", {  }, bReplace);
+            this.getRouter().getTargets().display("detailObjectNotFound");
+
         },
 
         /* =========================================================== */
@@ -84,6 +99,7 @@ sap.ui.define([
             var that = this;
             sap.ui.getCore().this = this;
             Promise.all([this.getTaskProcessing()]).then(that.getRdaProperties.bind(that));
+            
 
         },
         getRdaProperties: function (oEvent) {
@@ -93,10 +109,48 @@ sap.ui.define([
                 filters: [filters],
                 success: function _OnSuccess(oData, response) {
 
+                    var i = 0,
+                        a = 0,
+                        dataArray = [],
+                        data      = {};
+
+
+                       dataArray = [];
+
+                    for(i=0;i<oData.results.length;i++){
+
+                        for(a=0;a<sap.ui.getCore().TaskProcessingResult.length;a++){
+
+                            if(oData.results[i].InstanceID == sap.ui.getCore().TaskProcessingResult[a].InstanceID){
+
+                                data                     = {}
+                                data.PurchaseRequisition = oData.results[i].PurchaseRequisition;
+                                data.InstanceID          = oData.results[i].InstanceID;
+                                data.RequesterDesc       = oData.results[i].RequesterDesc;
+                                data.TotalValue          = oData.results[i].TotalValue;
+                                data.Currency            = oData.results[i].Currency;
+                                data.CreatedBy           = sap.ui.getCore().TaskProcessingResult[a].CreatedBy;
+                                data.Priority            = sap.ui.getCore().TaskProcessingResult[a].Priority;
+                                data.Title               = sap.ui.getCore().TaskProcessingResult[a].Title;
+                                data.DueOn               = sap.ui.getCore().TaskProcessingResult[a].DueOn;
+                                data.CreatedOn           = sap.ui.getCore().TaskProcessingResult[a].CreatedOn;
+                                data.Status              = sap.ui.getCore().TaskProcessingResult[a].Status;
+                                data.Reservation         = sap.ui.getCore().TaskProcessingResult[a].Reservation;
+                                data.Type                = sap.ui.getCore().TaskProcessingResult[a].Type;
+
+                                dataArray.push(data);
+
+                            }
+
+                        }
+
+                    }
+
                     //sap.ui.getCore().this.getView().setModel(oData.results, "modelMaster");
-                    var json = { Task: oData.results };
+                    var json = { Task: dataArray };
                     var jsonModel = new sap.ui.model.json.JSONModel(json);
 
+                    sap.ui.core.BusyIndicator.hide();
                     sap.ui.getCore().this.getOwnerComponent().setModel(jsonModel, "modelMaster");
                     //alert('ok');
 
@@ -125,6 +179,7 @@ sap.ui.define([
                         sortBy: "PurchaseRequisition",
                         groupBy: "None"
                     });
+                    sap.ui.core.BusyIndicator.hide();
                     sap.ui.getCore().this.getView().setModel(generalModel, "masterView");
                     sap.ui.getCore().this.getView().byId("list").setBusy(false);
 
@@ -145,6 +200,10 @@ sap.ui.define([
             //var oModel = this.getView().getModel();
 
             var oModelTaskProcessing = this.getOwnerComponent().getModel("TASKPROCESSING");
+            oModelTaskProcessing.refresh();
+            
+            filters = [];
+            sap.ui.core.BusyIndicator.show();
 
 
             return new Promise(
@@ -154,6 +213,7 @@ sap.ui.define([
                         success: function _OnSuccess(oData, response) {
 
                             var results = oData.results;
+                            sap.ui.getCore().TaskProcessingResult = [];
                             for (i = 0; i < results.length; i++) {
 
                                 if (results[i].TaskDefinitionID == "TS00008267_WS90000007_0000000361" && results[i].Status == "READY") {
@@ -161,8 +221,7 @@ sap.ui.define([
                                     var InstanceFilter = new sap.ui.model.Filter("InstanceID", sap.ui.model.FilterOperator.EQ, results[i].InstanceID);
 
                                     filters.push(InstanceFilter);
-
-
+                                    sap.ui.getCore().TaskProcessingResult.push(results[i]);
 
                                 }
 
@@ -178,7 +237,8 @@ sap.ui.define([
 
                         },
                         error: function _OnError(oError) {
-
+                            
+                            sap.ui.core.BusyIndicator.hide();
                             reject(oError);
 
                         }
@@ -286,6 +346,47 @@ sap.ui.define([
                 }.bind(this));
             } else {
                 this.byId("viewSettingsDialog").open(sDialogTab);
+            }
+        },
+
+        onOpenViewFilter: function (oEvent) {
+            var sDialogTab = "filter";
+ 
+            // load asynchronous XML fragment
+            if (!this.byId("viewFilterDialog")) {
+                Fragment.load({
+                    id: this.getView().getId(),
+                    name: "purchaserequisitionapproval.view.FilterDialog",
+                    controller: this
+                }).then(function (oDialog) {
+                    // connect dialog to the root view of this component (models, lifecycle)
+                    this.getView().addDependent(oDialog);
+                    oDialog.addStyleClass(this.getOwnerComponent().getContentDensityClass());
+                    oDialog.open(sDialogTab);
+                }.bind(this));
+            } else {
+                this.byId("viewFilterDialog").open(sDialogTab);
+            }
+        },
+
+
+          onOpenGroupFilter: function (oEvent) {
+            var sDialogTab = "Group";
+ 
+            // load asynchronous XML fragment
+            if (!this.byId("viewGroupDialog")) {
+                Fragment.load({
+                    id: this.getView().getId(),
+                    name: "purchaserequisitionapproval.view.GroupFilter",
+                    controller: this
+                }).then(function (oDialog) {
+                    // connect dialog to the root view of this component (models, lifecycle)
+                    this.getView().addDependent(oDialog);
+                    oDialog.addStyleClass(this.getOwnerComponent().getContentDensityClass());
+                    oDialog.open(sDialogTab);
+                }.bind(this));
+            } else {
+                this.byId("viewGroupDialog").open(sDialogTab);
             }
         },
 

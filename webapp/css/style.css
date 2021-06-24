@@ -82,11 +82,11 @@
 }
 
 .biggerSpacesTable .sapMLIBShowSeparator>td {
-    border-bottom: 1px solid #ff5c39 !important;
+    border-bottom: 1px solid #a30b35 !important;
 }
 
 .vboxPricesMargin {
-    border: 1px solid #ff5c39b3;
+    border: 1px solid #a30b35; 
     margin-top: 0.3em;
     margin-bottom: 0.3em;
     padding: 0.2rem;
@@ -129,4 +129,17 @@ html.sap-phone .sapMOH {
   
     width: 23rem !Important;
 
+}
+
+.spacingDialog{margin:1rem;}
+
+.sapMSplitContainerStretchCompress>.sapMSplitContainerMaster, .sapMSplitContainerShowHide:not(.sapMSplitContainerPortrait)>.sapMSplitContainerMaster, .sapMSplitContainerPopover:not(.sapMSplitContainerPortrait)>.sapMSplitContainerMaster {
+    border-radius: 0;
+    border-left: 1px solid red;
+    /* overflow: visible; */
+}
+
+.sapMSplitContainerDetail {
+    background: #fff !important;
+    border-right: 1px solid red;
 }

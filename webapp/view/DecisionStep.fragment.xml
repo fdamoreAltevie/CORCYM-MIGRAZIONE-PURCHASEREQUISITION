@@ -1,0 +1,21 @@
+<core:FragmentDefinition
+   xmlns="sap.m"
+   xmlns:core="sap.ui.core" >
+   <Dialog  title="{i18n>fragmentSubmitDecision}" titleAlignment="Center">
+        <Text text="{i18n>fragmentSubmitSelection}:'{DialogModel>/selection}'" class="spacingDialog"/>
+        <Text text="{DialogModel>/selection}" id="choice" visible="false"/>
+        <VBox class="spacingDialog">
+            <Label text="{i18n>fragmentDecisionNote}"/>
+            <TextArea placeholder="{i18n>fragmentDecisionNotePlaceHolder}" id="FragmentNote" width="95%"  rows="2" ></TextArea>
+        </VBox>
+
+
+        <beginButton>
+			<Button text="{i18n>fragmentSubmit}" press="handleSubmit" />
+		</beginButton>
+          <endButton>			
+            <Button text="{i18n>fragmentCancel}" press="handleCancel" />
+		</endButton>
+
+   </Dialog>
+</core:FragmentDefinition>

@@ -16,8 +16,9 @@
 		</f:FlexibleColumnLayout>
 
 	</App>-->
-
+    <Shell appWidthLimited="true">
     <SplitApp id="idAppControl">
 	</SplitApp>
+    </Shell>
 
 </mvc:View>
