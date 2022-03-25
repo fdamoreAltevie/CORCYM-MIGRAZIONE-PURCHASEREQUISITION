@@ -3,7 +3,7 @@
 <Page id="masterPage" title="{masterView>/title}" titleAlignment="Center">
 		<content>
 
-			<List id="list" width="auto" class="sapFDynamicPageAlignContent" items="{modelMaster>/Task}" busyIndicatorDelay="{masterView>/delay}" noDataText="{masterView>/noDataText}" mode="{= ${device>/system/phone} ? 'None' : 'SingleSelectMaster'}" growing="true" growingScrollToLoad="true" updateFinished=".onUpdateFinished" selectionChange=".onSelectionChange">
+			<List id="list" width="auto" class="sapFDynamicPageAlignContent" items="{modelMaster>/Task}" busyIndicatorDelay="{masterView>/delay}" noDataText="{masterView>/noDataText}" mode="SingleSelectMaster" growing="true" growingScrollToLoad="true" updateFinished=".onUpdateFinished" selectionChange=".onSelectionChange" select=".onSelectionChange">
 				<headerToolbar>
 					<OverflowToolbar>
 						<SearchField id="searchField" showRefreshButton="true" tooltip="{i18n>masterSearchTooltip}" search=".onSearch" width="100%">
@@ -13,8 +13,8 @@
 				</headerToolbar>
 				<items>
 					
- <CustomListItem id="MAIN_LIST_ITEM" type="{device>/listItemType}" press="_handleItemPress" class="customListItem" title="{i18n>PurchaseRequisition}: {modelMaster>PurchaseRequisition}" intro="{parts: [{path: 'modelMaster>TipoDocumentoDesc'}, {path: 'modelMaster>RequesterDesc'}]}" number="{i18n>TotalValue}: {modelMaster>TotalValue}" numberUnit="{modelMaster>Currency}">
-                    <VBox>
+ <CustomListItem id="MAIN_LIST_ITEM" type="Active" tap="_handleItemPress" press="_handleItemPress" class="customListItem" title="{i18n>PurchaseRequisition}: {modelMaster>PurchaseRequisition}" intro="{parts: [{path: 'modelMaster>TipoDocumentoDesc'}, {path: 'modelMaster>RequesterDesc'}]}" number="{i18n>TotalValue}: {modelMaster>TotalValue}" numberUnit="{modelMaster>Currency}">
+                    <VBox press="_handleItemPress" tap="_handleItemPress" > 
                         <HBox class="ListItemSpacer">
                         <Text class="bolderClass ListItemSpacerFirst" text="{i18n>PurchaseRequisition}:"/>
                         <Text class="bolderClass ListItemSpacerFirst" text="{modelMaster>PurchaseRequisition}"/>

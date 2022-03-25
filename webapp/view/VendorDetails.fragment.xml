@@ -1,0 +1,59 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+	<Dialog id="ExtNewLblVendorDetailsDialog" title="{i18n>ExtNewLblVendorDetailsDialog}" contentWidth="80%" stretchOnPhone="true">
+		<f:SimpleForm editable="false" layout="ResponsiveGridLayout" title="{i18n>ExtNewLblVendorDetailsName}" labelSpanXL="4" labelSpanL="3"
+			labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="2"
+			columnsL="1" columnsM="1" singleContainerFullSize="false">
+			<f:content>
+				<Label text="{i18n>ExtNewLblVendorDetailsName}" class="sapUiTinyMarginTop"/>
+				<VBox>
+					<Input value="{VendorInformationsModel>/Name}" editable="false" class="fakeInputs" width="100%"/>
+					<Input value="{VendorInformationsModel>/Name2}" editable="false" class="fakeInputs" width="100%"/>
+					<Input value="{VendorInformationsModel>/Name3}" editable="false" class="fakeInputs" width="100%"/>
+					<Input value="{VendorInformationsModel>/Name4}" editable="false" class="fakeInputs" width="100%"/>
+				</VBox>
+			</f:content>
+		</f:SimpleForm>
+		<f:SimpleForm editable="false" layout="ResponsiveGridLayout" title="{i18n>ExtNewLblVendorDetailsStreetAddress}" labelSpanXL="4" labelSpanL="3" labelSpanM="4" labelSpanS="12"
+			adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="1" columnsM="1"
+			singleContainerFullSize="false">
+			<f:content>
+				<Label text="{i18n>ExtNewLblVendorDetailsStreetAddressHouse}" class="sapUiTinyMarginTop"/>
+				<Input value="{VendorInformationsModel>/Street}" editable="false" class="fakeInputs"/>
+				<Label text="{i18n>ExtNewLblVendorDetailsPostalCodeCity}" class="sapUiTinyMarginTop"/>
+				<Input value="{VendorInformationsModel>/PostalCode}" editable="false" class="fakeInputs"/>
+				<Input value="{VendorInformationsModel>/City}" editable="false" class="fakeInputs"/>
+				<Label text="{i18n>ExtNewLblVendorDetailsCountry}" class="sapUiTinyMarginTop"/>
+				<Input value="{VendorInformationsModel>/Country}" editable="false" class="fakeInputs"/>
+				<Label text="{i18n>ExtNewLblVendorDetailsRegion}" class="sapUiTinyMarginTop"/>
+				<Input value="{VendorInformationsModel>/Region}" editable="false" class="fakeInputs"/>
+			</f:content>
+		</f:SimpleForm>
+		<f:SimpleForm editable="false" layout="ResponsiveGridLayout" title="{i18n>ExtNewLblVendorDetailsPOBoxAddress}" labelSpanXL="4" labelSpanL="3" labelSpanM="4" labelSpanS="12"
+			adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="1" columnsM="1"
+			singleContainerFullSize="false">
+			<f:content>
+				<Label text="{i18n>ExtNewLblVendorDetailsPOBox}" class="sapUiTinyMarginTop"/>
+				<Input value="{VendorInformationsModel>/POBox}" editable="false" class="fakeInputs"/>
+				<Label text="{i18n>ExtNewLblVendorDetailsPostalCode}" class="sapUiTinyMarginTop"/>
+				<Input value="{VendorInformationsModel>/POPostalCode}" editable="false" class="fakeInputs"/>
+			</f:content>
+		</f:SimpleForm>
+		<f:SimpleForm editable="false" layout="ResponsiveGridLayout" title="{i18n>ExtNewLblVendorDetailsCommunication}" labelSpanXL="4" labelSpanL="3" labelSpanM="4" labelSpanS="12"
+			adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="1" columnsM="1"
+			singleContainerFullSize="false">
+			<f:content>
+				<Label text="{i18n>ExtNewLblVendorDetailsLanguage}" class="sapUiTinyMarginTop"/>
+				<Input value="{VendorInformationsModel>/Launguage}" editable="false" class="fakeInputs"/>
+				<Label text="{i18n>ExtNewLblVendorDetailsTelephone}" class="sapUiTinyMarginTop"/>
+				<Input value="{VendorInformationsModel>/Telephone}" editable="false" class="fakeInputs"/>
+				<Label text="{i18n>ExtNewLblVendorDetailsMobilePhone}" class="sapUiTinyMarginTop"/>
+				<Input value="{VendorInformationsModel>/SecondPhone}" editable="false" class="fakeInputs"/>
+				<Label text="{i18n>ExtNewLblVendorDetailsEmail}" class="sapUiTinyMarginTop"/>
+				<Input value="{VendorInformationsModel>/Email}" editable="false" class="fakeInputs"/>
+			</f:content>
+		</f:SimpleForm>
+		<buttons>
+			<Button icon="sap-icon://nav-back" text="{i18n>ExtNewLblVendorDetailsClose}" press=".byId('ExtNewLblVendorDetailsDialog').close()"></Button>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

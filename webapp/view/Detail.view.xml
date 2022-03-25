@@ -52,9 +52,9 @@
 										<f:SimpleForm layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12">
 											<f:content>
 												<Label text="{i18n>ExtNewLblHeaderNote}" class="sapUiTinyMarginTop"/>
-												<TextArea value="{extendedJsonModel>/HeaderNote}" editable="false" height="8rem" class="textAreaInput"/>
+												<TextArea id="HeaderNote" value="{detailView>/HeaderNote}" editable="false" height="8rem" class="textAreaInput"/>
 												<Label text="{i18n>ExtNewLblHeaderApprRejNote}" class="sapUiTinyMarginTop"/>
-												<TextArea value="{extendedJsonModel>/ApprRejNote}" editable="false" height="8rem" class="textAreaInput"/>
+												<TextArea id="ApprRejNote" value="{/ApprRejNote}" editable="false" height="8rem" class="textAreaInput"/>
 											</f:content>
 										</f:SimpleForm>
 									</VBox>
@@ -146,7 +146,7 @@
 													<VBox class="vboxPricesMargin" visible="{extendedJsonModel>showAllRows}">
 														<HBox>
 															<Text text="{i18n>ExtNewLblColPlant}: " class="positionTableLabel"/>
-															<Text text="{= !${deviceModel>/system/phone} ? ( ${PlantCode} + ' -' ) : ''} {PlantDes}"
+															<Text text="{= !${deviceModel>/system/phone} ? ( ${extendedJsonModel>PlantCode} + ' -' ) : ''} {extendedJsonModel>PlantDes}"
 																class="positionTableMainText"/>
 														</HBox>
 														<HBox>
@@ -177,7 +177,20 @@
 								key="ATTACHMENTS">
                             
 
-<UploadCollection id="uploadCollection" items="{detail>/Attachments}" uploadEnabled="false"  uploadComplete="onAttachmentUploadComplete" fileDeleted="onAttachmentDeleted" change="onAttachmentChange" sameFilenameAllowed="true">
+<UploadCollection id="uploadCollection" items="{detail>/Attachments}" mode="MultiSelect" uploadEnabled="false"  uploadComplete="onAttachmentUploadComplete" fileDeleted="onAttachmentDeleted" change="onAttachmentChange" sameFilenameAllowed="true">
+                                
+                                <toolbar>
+				<OverflowToolbar id="myId">
+					<ToolbarSpacer />
+					<Button
+						id="downloadButton"
+						text="Download"
+						press="onDownloadItem"
+						enabled="true"
+						type="Transparent" />
+					<UploadCollectionToolbarPlaceholder/>
+				</OverflowToolbar>
+			</toolbar>
                                 <items>
                                 <UploadCollectionItem 
                                     contributor="{detail>CreatedByName}"
@@ -187,7 +200,7 @@
                                     uploadedDate="{path: 'detail>CreatedAt', type: 'sap.ui.model.type.DateTime', formatOptions: { style: 'medium'}}"
                                     url="{ path: 'detail>__metadata/media_src', formatter: '' }"
                                     enableEdit="false"
-                                    visibleEdit="false"			
+                                    visibleEdit="false"	
                                     visibleDelete = "false">
                                     
                                     <attributes>

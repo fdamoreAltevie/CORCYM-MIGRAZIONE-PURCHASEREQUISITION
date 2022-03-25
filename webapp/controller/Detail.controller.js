@@ -37,9 +37,68 @@ sap.ui.define([
 
             this.getOwnerComponent().getModel().metadataLoaded().then(this._onMetadataLoaded.bind(this));
 
+
             //SETTING UP DEVICE MODEL TYPE
             this.createDeviceModel();
         },
+
+        onWindowOpen: function(oEvent) {
+            var url = sap.ui.getCore().url;
+    window.open(url, "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=500,width=800,height=400");
+},
+
+        onWindowOpen2: function(oEvent) {
+             var url = sap.ui.getCore().url;
+    parent.window.open(url, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=500,width=800,height=400");
+},
+
+	onVendorLaunchTask: function(event){
+		var path = event.getSource().getParent().getParent().getParent().getBindingContextPath();
+		var FixedVendorCode = this.getView().getModel("extendedJsonModel").getProperty(path).FixedVendorCode;
+		
+		var extendedModel = this.getOwnerComponent().getModel();
+		sap.ui.core.BusyIndicator.show();
+		extendedModel.read("/VendorInformationsSet(VendorCode='" + FixedVendorCode + "')", {
+			success: function (result) {
+				sap.ui.core.BusyIndicator.hide();
+				
+				var VendorInformationsModel = new sap.ui.model.json.JSONModel(result);
+				this.getView().setModel(VendorInformationsModel, "VendorInformationsModel");
+				
+				if (!this.byId("ExtNewLblVendorDetailsDialog")) {
+					sap.ui.core.Fragment.load({
+						id: this.getView().getId(),
+						name: "purchaserequisitionapproval.view.VendorDetails",
+						controller: this
+					}).then(function (oDialog) {
+						this.getView().addDependent(oDialog);
+						oDialog.open();
+					}.bind(this));
+				} else {
+					this.getView().byId("ExtNewLblVendorDetailsDialog").open();
+				}
+			}.bind(this),
+			error: function (e) {
+				sap.ui.core.BusyIndicator.hide();
+				alert("Errore di comunicazione con il database.");
+			}
+		});
+	},
+
+        onDownloadItem: function() {
+			var oUploadCollection = this.byId("uploadCollection");
+			var aSelectedItems = oUploadCollection.getSelectedItems();
+			if (aSelectedItems) {
+				for (var i = 0; i < aSelectedItems.length; i++) {
+                     var URL = aSelectedItems[0].mProperties.url;
+                     window.open(URL, "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=500,width=800,height=400");
+
+					//oUploadCollection.downloadItem(aSelectedItems[i], true);
+				}
+			} else {
+				MessageToast.show("Select an item to download");
+			}
+		},
 
         updateCountPosition: function () {
 
@@ -267,6 +326,37 @@ sap.ui.define([
                     PurchaseRequisition: sObjectId
 
                 });
+
+            var extendedModel = this.getOwnerComponent().getModel();
+            extendedModel.read("/" + sObjectPath, {
+                success: function (result) {
+                    
+                        var stringa = "";
+                        stringa = result.ApprRejNote; 
+                        stringa = stringa.replace( /\\n/g  , "\u000a");
+                        
+                        sap.ui.getCore().this.getView().byId("ApprRejNote").setValue(stringa);
+
+                        var stringa = "";
+                        stringa = result.HeaderNote; 
+                        stringa = stringa.replace( /\\n/g  , "\u000a");
+
+                        sap.ui.getCore().this.getView().byId("HeaderNote").setValue(stringa);
+                        
+                        
+                 
+
+
+                }.bind(this),
+                error: function (e) {
+                    sap.ui.core.BusyIndicator.hide();
+                    var message = JSON.parse(e.responseText).error.message.value;
+                    sap.m.MessageBox.error(message);
+                }
+            });
+
+            
+
                 this._bindView("/" + sObjectPath);
             }.bind(this));
 
@@ -301,6 +391,20 @@ sap.ui.define([
 
             oModel.read("/TaskCollection(SAP__Origin='%2FIWPGW%2FBWF',InstanceID='" + InstanceID + "')/Attachments", {
                 success: function (result) {
+                    var i=0;
+                    for (i=0; result.results.length > i; i++){
+                        var str = result.results[i].__metadata.media_src;
+                        //parent.window.open(str, '_blank');
+                        //window.open(str, '_blank');
+                        //var myArr = str.split("8443/");
+                        var myArr = str.split("44300/");
+                        var manObj = sap.ui.getCore().this.getOwnerComponent().getManifestObject();
+                        result.results[i].__metadata.media_src = manObj._oBaseUri._string + myArr[1];
+                        sap.ui.getCore().url = result.results[i].__metadata.media_src;
+                    }
+
+
+
                     var json = {
                         Attachments: result.results,
                         AttachmentsCount: result.results.length
@@ -316,6 +420,36 @@ sap.ui.define([
             });
 
 
+
+        },
+
+        onPressAttachment: function(oEvent){
+
+                  var oModel = this.getOwnerComponent().getModel("TASKPROCESSING");
+    window.open("/AttachmentCollection(SAP__Origin='%2FIWPGW%2FBWF',InstanceID='000000008136',ID='464F4C34363030303030303030303030344558543436303030303030303030323833')/$value");
+
+oModel.read("/AttachmentCollection(SAP__Origin='%2FIWPGW%2FBWF',InstanceID='000000008136',ID='464F4C34363030303030303030303030344558543436303030303030303030323833')/$value", {
+                success: function (result) {
+
+
+
+                    var json = {
+                        Attachments: result.results,
+                        AttachmentsCount: result.results.length
+                    };
+                    //var jsonModel = new sap.ui.model.json.JSONModel(json);
+                    //sap.ui.getCore().this.getOwnerComponent().setModel(jsonModel, "detail");
+
+                },
+                error: function (e) {
+                    sap.ui.core.BusyIndicator.hide();
+                    alert("Errore di comunicazione con il database.");
+                }
+            });
+
+               
+
+     
 
         },
 

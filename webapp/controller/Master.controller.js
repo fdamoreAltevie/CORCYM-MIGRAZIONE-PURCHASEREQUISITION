@@ -129,6 +129,7 @@ sap.ui.define([
                                 data.RequesterDesc       = oData.results[i].RequesterDesc;
                                 data.TotalValue          = oData.results[i].TotalValue;
                                 data.Currency            = oData.results[i].Currency;
+                                data.TipoDocumentoDesc   = oData.results[i].TipoDocumentoDesc;
                                 data.CreatedBy           = sap.ui.getCore().TaskProcessingResult[a].CreatedBy;
                                 data.Priority            = sap.ui.getCore().TaskProcessingResult[a].Priority;
                                 data.Title               = sap.ui.getCore().TaskProcessingResult[a].Title;
@@ -166,6 +167,7 @@ sap.ui.define([
                     sap.ui.getCore().this.getView().setModel(generalModel, "masterView");
                     if (sap.ui.getCore().this.getView().byId("list") != undefined) {
                         sap.ui.getCore().this.getView().byId("list").setBusy(false);
+                        sap.ui.getCore().this.displayFirst();
                     }
 
                 }, error: function _OnError(oError) {
@@ -216,7 +218,7 @@ sap.ui.define([
                             sap.ui.getCore().TaskProcessingResult = [];
                             for (i = 0; i < results.length; i++) {
 
-                                if (results[i].TaskDefinitionID == "TS00008267_WS90000007_0000000361" && results[i].Status == "READY") {
+                                if (results[i].TaskDefinitionID == "TS00008267_WS90000007_0000000361" && ( results[i].Status == "READY" || results[i].Status == "RESERVED" || results[i].Status == "IN_PROGRESS") ) {
 
                                     var InstanceFilter = new sap.ui.model.Filter("InstanceID", sap.ui.model.FilterOperator.EQ, results[i].InstanceID);
 
@@ -434,6 +436,20 @@ sap.ui.define([
                 // get the list item, either from the listItem parameter or from the event's source itself (will depend on the device-dependent mode).
                 this._showDetail(oEvent.getParameter("listItem") || oEvent.getSource());
             }
+        },
+
+        displayFirst: function (oEvent) {
+            var oList = this.getView().byId("list").getItems();
+            var item = "";
+
+            if(oList){
+                item = oList[0];
+
+                // get the list item, either from the listItem parameter or from the event's source itself (will depend on the device-dependent mode).
+                this._showDetail(item);
+            }
+
+
         },
 
 		/**
